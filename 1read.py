@@ -3,6 +3,7 @@ img=cv.imread('Photos/images_large.jpg')
 cv.imshow('Cat',img) # name ,pixel which is in img
 cv.waitKey(0)
 
+
 # For a color image (RGB/BGR):
 #print(img.shape)
 # Example output: (480, 640, 3)
