@@ -11,7 +11,7 @@ cv.imshow('Rectangle',blank)
 # cv.rectangle(blank,(0,0),(250,500),(0,0,255),thickness=2)
 # cv.imshow('Rect',blank)
 
-cv.rectangle(blank,(0,0),(250,250),(0,255,0),thickness=cv.FILLED) # cv.filled / -1 automatically fill that  rectangle by green
+cv.rectangle(blank,(0,0),(250,250),(0,255,0),thickness=cv.FILLED) # cv.filled / -1 automatically fill that  rectangle by bgr value
 cv.imshow('Rect',blank)
 
 #Alternative instead of using fix width 
