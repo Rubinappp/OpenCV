@@ -8,4 +8,3 @@ cv.circle(blank,(255,255),40,(0,0,255),thickness=-1) # center,radius,bgr
 cv.imshow('Circle',blank)
 
 cv.waitKey(0)
-

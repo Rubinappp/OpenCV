@@ -8,8 +8,6 @@ cv.imshow('blank',blank) # blank image
 cv.rectangle(blank,(0,0),(250,250),(255,0,0),thickness=2)
 cv.imshow('Rectangle',blank)
 
-# cv.rectangle(blank,(0,0),(250,500),(0,0,255),thickness=2)
-# cv.imshow('Rect',blank)
 
 cv.rectangle(blank,(0,0),(250,250),(0,255,0),thickness=cv.FILLED) # cv.filled / -1 automatically fill that  rectangle by bgr value
 cv.imshow('Rect',blank)
@@ -21,3 +19,4 @@ cv.imshow('rect1',blank)
 # cannot draw a rectangle at floating positions
 
 cv.waitKey(0) # pause wait for key to be pressed 
+

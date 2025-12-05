@@ -7,3 +7,4 @@ cv.putText(blank,'Hello I am Rubina!!',(0,255),cv.FONT_HERSHEY_SCRIPT_COMPLEX,1.
 cv.imshow('Text',blank)
 
 cv.waitKey(0)
+

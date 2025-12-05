@@ -15,7 +15,6 @@ def rescaleFrame(frame,scale=0.75):
     height=int(frame.shape[0]*scale)
     dimensions=(width,height)
     return cv.resize(frame,dimensions,interpolation=cv.INTER_AREA)
-# def changeRes(width,height)
 
 
 # rescale_img=rescaleFrame(img)
@@ -34,3 +33,22 @@ while True:
         break
 capture.release()
 cv.destroyAllWindows()
+
+# When you resize an image, OpenCV must create new pixels or remove pixels.
+
+# Interpolation = the method OpenCV uses to calculate or estimate those new pixel values.
+
+# Different methods = different quality.
+
+# INTER_AREA = “pixel area relation” interpolation =best method for shrinking
+# when an image is scaled down many original pixels get combined into fewer pixels
+# INTER_AREA calculates each new pixel value using the area covered by the old pixels by averaging which gives smooth result with no noise
+
+
+
+# | Interpolation     | Best For                  | Notes                             |
+# | ----------------- | ------------------------- | --------------------------------- |
+# | **INTER_AREA**    | **Shrinking (downscale)** | Highest quality for reducing size |
+# | **INTER_LINEAR**  | General use               | Default, good quality, fast       |
+# | **INTER_CUBIC**   | Upscaling                 | slow but high quality             |
+# | **INTER_NEAREST** | Very fast, blocky         | good for masks                    |
