@@ -1,5 +1,5 @@
 #Basic information Transformation
-#translation,rotation,resizing,clipping,cropping
+#translation,rotation,resizing,flipping,cropping
 
 # 1.Translation
 # Translation = moving every pixel in the image by some amount:(right/left,Up/down)
@@ -13,7 +13,7 @@ cv.imshow("cat",img)
 def translate(img,tx,ty):
     transMat= np.float32([[1,0,tx],[0,1,ty]]) # 2D matrix converted into float since result might have decimal number
     dimension=(img.shape[1],img.shape[0])
-    return cv.warpAffine(img,transMat,dimension,)
+    return cv.warpAffine(img,transMat,dimension)
 translated=translate(img,-100,-100) # shifted left and down by 100 pixels
 cv.imshow('trans_img',translated)
 cv.waitKey(0)
