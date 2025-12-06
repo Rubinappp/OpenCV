@@ -1,0 +1,7 @@
+Edges = boundary pixels
+Contours = connected boundary pixels (shapes)curve or outlines or object boundaries
+
+The pixels that have strong intensity change are usually right next to each other.
+So when Canny marks those pixels as white (255):
+they appear like a line and seem connected but in actual its not the case
+Contour will FIND groups of pixels that are already connected.
