@@ -1,0 +1,26 @@
+converting an RGB image → BGR does NOT change how the picture looks in cv.imshow()
+
+Pipeline:
+Camera image: RGB  
+↓  
+cv.imread(): Converts to BGR  
+↓  
+cv.imshow(): expects BGR by design, so it displays the BGR image with correct colors (red looks red, blue looks blue)
+↓  
+You see correct colors  
+
+
+
+What happens when you convert BGR → RGB yourself?
+
+rgb = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+cv.imshow("wrong", rgb)
+
+But cv.imshow always expects BGR, so when it receives an RGB image:
+It interprets RGB as BGR ([255, 0, 0] (Red) interpreted as [255, 0, 0] (Blue) )
+So the Red channel becomes Blue
+The Blue channel becomes Red
+
+
+
+
