@@ -1,0 +1,128 @@
+Method,         
+1 cv2.blur(),             
+    Simple average of all pixels under the kernel,     
+    Kernel Must be odd (3×3, 5×5, 7×7…),
+    No edges preserved,
+    Best for - General heavy smoothing, removing small noise, when you don't care about details
+
+
+2 cv2.GaussianBlur(),     (Most commonly used- slightly better result)
+    Weighted average – center pixel gets highest weight and weights decrease smoothly with distance.  
+    Kernel Must be odd,
+    A little edge preserved ,
+    Best for - to looks natural,less blurring than blur method
+    Soft but still recognizable
+
+#Weight calculation Formula: 
+    Weight(x,y) = A × e^( -(x² + y²) / (2×σ²) )
+    A = 1 / (2 × π × σ²)
+  
+    So:
+- σ controls the "shape" and "width" of the bell curve
+- Kernel size controls "how many little weights you have to add up"(used for normalization while displaying final weight)
+- Final normalized weight depends on BOTH σ and ksize
+- Only when kernel is infinitely large → weight becomes purely function of σ only
+
+Example to understand 
+The exact weight matrix that OpenCV uses for
+(5,5) kernel and sigma = 1.0 (rounded for clarity):
+  
+ y/x  -2      -1       0       +1      +2        
+-2  0.0030  0.0133  0.0219  0.0133  0.0030
+-1  0.0133  0.0596  0.0983  0.0596  0.0133
+ 0  0.0219  0.0983  *0.1621 0.0983  0.0219     sum = 1.0000
++1  0.0133  0.0596  0.0983  0.0596  0.0133
++2  0.0030  0.0133  0.0219  0.0133  0.0030
+
+
+Center pixel gets ~16.21% weight
+nearby pixel gets more weight and distance pixel get almost no weight 
+
+
+# Example:suppose its a pixel value for blue:
+
+100 110 120  115 105
+105 130 150  140 110
+108 145 *200 160 112
+107 135 155  138 109
+102 108 118  113 106
+
+200 is center blue pixel 
+Center New_B = (100×0.003) + (110×0.013) + (120×0.022) + ...
+        + (130×0.059) + (150×0.097) + (200×0.159) + ...
+        ... all 25 terms/25
+      = 149.8  → rounded to 150
+
+| Sigma (σ) | What happens to weights                  | Effect on image                          |
+|-----------|------------------------------------------|------------------------------------------|
+| σ = 0.5   | Very peaked — center dominates           | Very light blur, almost like original    |
+| σ = 1.0   | Standard Gaussian distribution           | Nice natural blur (most commonly used)   |
+| σ = 2.0   | Weights spread out more                  | Stronger blur, affects farther pixels    |
+| σ = 5.0   | Almost flat (very wide bell curve)       | Very heavy blur — similar to average blur|
+| σ = 0     | automatically calculates the sigma from kernel size using standard Formula
+
+when sigma value is less
+Only pixels VERY close have  weight, 
+pixel farther away get almost ZERO weight 
+So the center pixel’s value stays almost unchanged
+Result: NO BLUR. Almost identical to original image.
+
+sigma = 0.3 * ((ksize - 1) * 0.5 - 1) + 0.8
+ 
+
+
+
+3.cv2.medianBlur(),                
+    Takes the median value (middle value when sorted),      
+    "Single odd number (3,5,7…)",
+    Yes (a bit) of edge preserved,
+    Best for - Removing salt-and-pepper noise,
+    Sharp edges + clean from grains
+
+4.cv2.bilateralFilter()
+    Blur and Remove noise by preserving edges(best)          
+    Blurs only similar-color pixels → keeps edges sharp,
+    Any d (5–15 common),
+    Remove noise by preserving edges(best),
+    Best for - "Beauty filters, cartoon effect, preprocessing",
+    Smooth skin but sharp eyes/edges remain
+
+
+    
+
+Gaussian blur weight depends only on spatial distance:    wspace​(p,q)=e^( -(x² + y²) / (2×σ²) )
+Bilateral filter adds one more weight term:  wbilateral​(p,q)=wspace​(p,q)×wintensity​(p,q)
+                                              w_intensity(p, q) = exp( - ( I(p) - I(q) )^2 / (2 * σ_r^2) )
+                                              p= pixel atcenter,q=neighbour pixel
+                                            Similar intensity → weight high
+                                            Large intensity difference → weight almost zero which preserve edges.
+bilateral=cv.bilateralFilter(img,5,35,25) 
+Step-by-step of Bilateral Filtering
+
+1. Pick a center pixel (the one we want to smooth).
+
+2. Consider a neighborhood around that pixel:
+        The size of the neighborhood is the diameter d.
+
+Example: d = 5 → consider a 5×5 window of pixels around the center.
+
+3. Compute weights for each neighbor inside that window:
+
+Two components are used for weight:
+
+a. Spatial weight (distance from center)
+
+how far pixels meaningfully contribute.effect what weight will be assigned.
+Controlled by sigmaSpace. σ_space is not exactly distance or anything.
+Large σ_space → far pixels  will also contribute.
+Small σ_space → only near pixels contribute
+
+b. Intensity/color weight
+
+How different is the neighbor’s intensity (or color) from the center pixel?
+Controlled by sigmaColor.
+Pixels with very different intensity/color contribute less → this is why edges are preserved.
+
+
+4.Compute the new center pixel value.
+
