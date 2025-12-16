@@ -3,7 +3,7 @@ import numpy as np
 img=cv.imread('Photos\images.jpg') 
 cv.imshow('Cat',img)
 
-blank=np.zeros(img.shape[:2],dtype='uint8')
+blank=np.zeros(img.shape[:2],dtype='uint8')# should be same size of the image else assertion error
 cv.imshow("blank",blank)
 
 Circle=cv.circle(blank.copy(),(img.shape[1]//2,img.shape[0]//2+10),100,255,-1)
@@ -21,7 +21,7 @@ cv.imshow("masked1",masked1)
 weird_shape=cv.bitwise_and(Circle,rectangle)
 cv.imshow("masked1",weird_shape)
 masked2=cv.bitwise_and(img,img,mask=weird_shape)
-cv.imshow("Weird Masked image",masked2)
+cv.imshow("Weird shaped Masked image",masked2)
 
 
 
